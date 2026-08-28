@@ -12,22 +12,14 @@
 //
 
 import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
-import { LocalStorageLanguageCurrent } from "@constants/LocalStorage";
-import LocalStorageCustomDetector from "@i18n/detectors/localStorageCustom";
 import { getBasePath } from "@utils/BasePath";
 
 const basePath = getBasePath();
 
-const CustomLanguageDetector = new LanguageDetector();
-
-CustomLanguageDetector.addDetector(LocalStorageCustomDetector);
-
 i18n.use(Backend)
-    .use(CustomLanguageDetector)
     .use(initReactI18next)
     .init({
         backend: {
@@ -35,14 +27,6 @@ i18n.use(Backend)
         },
         debug: false,
         defaultNS: "portal",
-        detection: {
-            caches: ["cookie"],
-            cookieMinutes: 365 * 24 * 60,
-            cookieOptions: { path: "/", sameSite: "strict", secure: true },
-            lookupCookie: "language",
-            lookupLocalStorage: LocalStorageLanguageCurrent,
-            order: ["localStorageCustom", "navigator"],
-        },
         fallbackLng: {
             af: ["en"],
             "af-ZA": ["af", "en"],
